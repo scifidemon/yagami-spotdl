@@ -18,6 +18,7 @@ def post_link():
     if request.method == 'POST':
         cmd = ''
         TEMP_DIR = "spotdl/"
+        shutil.rmtree(TEMP_DIR, ignore_errors=True)
         if not os.path.exists(TEMP_DIR):
             os.makedirs(TEMP_DIR)
 
@@ -44,7 +45,7 @@ def post_link():
                     response.headers['Expires'] = 0
                     return response
                 except:
-                    return "Download Failed_2"
+                    return "Try again in sometime... You are in queue"
         
         
     if request.method == 'GET':
@@ -52,4 +53,4 @@ def post_link():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True,debug=True)
+    app.run()
