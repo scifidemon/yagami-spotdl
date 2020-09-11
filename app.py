@@ -16,6 +16,7 @@ def link_verify(url):
 def post_link():
 
     if request.method == 'POST':
+        cmd = ''
         TEMP_DIR = "spotdl/"
         shutil.rmtree(TEMP_DIR, ignore_errors=True)
         if not os.path.exists(TEMP_DIR):
