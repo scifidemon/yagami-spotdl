@@ -29,10 +29,8 @@ def post_link():
         if is_link(url):
             pass
         else:
-            url=f"{url}"
-
+            url=f'"{url}"'
         cmd = f'spotdl --song {url.strip()} -f {TEMP_DIR}'
-        
         if cmd:
             os.system(cmd)
             if not os.path.lexists(TEMP_DIR):
@@ -55,4 +53,4 @@ def post_link():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True)
+    app.run(threaded=True,debug=True)
