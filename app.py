@@ -26,14 +26,7 @@ def post_link():
         data = dict(request.form)
         print(data)
         url = data['url']
-        
-
-        if link_verify(url):
-            cmd = f"spotdl --song {url} -f {TEMP_DIR}"
-        else:
-            return "Invalid URL"
-        
-
+        cmd = f"spotdl --song {url} -f {TEMP_DIR}"
         if cmd:
             os.system(cmd)
             if not os.path.lexists(TEMP_DIR):
