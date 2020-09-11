@@ -31,7 +31,7 @@ def post_link():
         else:
             url=f"{url}"
 
-        cmd = f"spotdl --song {url.strip()} -f {TEMP_DIR}"
+        cmd = f'spotdl --song {url.strip()} -f {TEMP_DIR}'
         
         if cmd:
             os.system(cmd)
