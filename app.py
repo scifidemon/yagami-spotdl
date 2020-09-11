@@ -7,7 +7,7 @@ import shutil
 app = Flask(__name__)
 
 
-def link_verify(url):
+def is_link(url):
     if "open.spotify.com/track" in url:
         return True
 
@@ -26,14 +26,13 @@ def post_link():
         data = dict(request.form)
         print(data)
         url = data['url']
-        
-
-        if link_verify(url):
-            cmd = f"spotdl --song {url.strip()} -f {TEMP_DIR}"
+        if is_link(url):
+            pass
         else:
-            return "Invalid URL"
-        
+            url=f"{url}"
 
+        cmd = f"spotdl --song {url.strip()} -f {TEMP_DIR}"
+        
         if cmd:
             os.system(cmd)
             if not os.path.lexists(TEMP_DIR):
