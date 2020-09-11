@@ -28,7 +28,7 @@ def post_link():
         
 
         if link_verify(url):
-            cmd = f"spotdl --song {url} -f {TEMP_DIR}"
+            cmd = f"spotdl --song {url.strip()} -f {TEMP_DIR}"
         else:
             return "Invalid URL"
         
