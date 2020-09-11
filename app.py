@@ -18,6 +18,7 @@ def post_link():
     if request.method == 'POST':
         cmd = ''
         TEMP_DIR = "spotdl/"
+        shutil.rmtree(TEMP_DIR, ignore_errors=True)
         if not os.path.exists(TEMP_DIR):
             os.makedirs(TEMP_DIR)
 
@@ -47,8 +48,7 @@ def post_link():
                     response.headers['Expires'] = 0
                     return response
                 except:
-                    return "Download Failed"
-        shutil.rmtree(TEMP_DIR, ignore_errors=True)
+                    return "Download Failed_2"
         
         
     if request.method == 'GET':
