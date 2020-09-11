@@ -18,7 +18,6 @@ def post_link():
     if request.method == 'POST':
         cmd = ''
         TEMP_DIR = "spotdl/"
-        shutil.rmtree(TEMP_DIR, ignore_errors=True)
         if not os.path.exists(TEMP_DIR):
             os.makedirs(TEMP_DIR)
 
@@ -41,12 +40,16 @@ def post_link():
             if os.path.lexists(TEMP_DIR):
                 for track in os.listdir(TEMP_DIR):
                     track_loc = TEMP_DIR + track
-                response = send_from_directory(TEMP_DIR, track, as_attachment=True)
-                response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-                response.headers['Pragma'] = 'no-cache'
-                response.headers['Expires'] = 0
-                return response
-
+                try:
+                    response = send_from_directory(TEMP_DIR, track, as_attachment=True)
+                    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+                    response.headers['Pragma'] = 'no-cache'
+                    response.headers['Expires'] = 0
+                    return response
+                except:
+                    return "Download Failed"
+        shutil.rmtree(TEMP_DIR, ignore_errors=True)
+        
         
     if request.method == 'GET':
         return render_template("index.html")
