@@ -4,7 +4,7 @@ Yagami-spotdl is a project made to download spotify songs from web at ur ease.
 
 ## Installation
 
-It's a django project. So see django docs on how to host and use
+It's a flask project. So see flask docs on how to host and use
 
 ```bash
 Or Deploy it on Heroku.
