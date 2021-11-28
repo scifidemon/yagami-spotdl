@@ -14,23 +14,18 @@ def is_link(url):
 @app.route('/', methods=['GET', 'POST'])
 
 def post_link():
-
     if request.method == 'POST':
         cmd = ''
         TEMP_DIR = "spotdl/"
         shutil.rmtree(TEMP_DIR, ignore_errors=True)
         if not os.path.exists(TEMP_DIR):
             os.makedirs(TEMP_DIR)
-
-
         data = dict(request.form)
-        print(data)
         url = data['url']
         if is_link(url):
             pass
         else:
-            url=f'"{url}"'
-        cmd = f'spotdl --song {url.strip()} -f {TEMP_DIR}'
+            cmd = f'cd {TEMP_DIR} && spotdl "{url.strip()}"'
         if cmd:
             os.system(cmd)
             if not os.path.lexists(TEMP_DIR):
@@ -38,14 +33,14 @@ def post_link():
             if os.path.lexists(TEMP_DIR):
                 for track in os.listdir(TEMP_DIR):
                     track_loc = TEMP_DIR + track
-                try:
-                    response = send_from_directory(TEMP_DIR, track, as_attachment=True)
-                    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-                    response.headers['Pragma'] = 'no-cache'
-                    response.headers['Expires'] = 0
-                    return response
-                except:
-                    return "Try again in sometime... You are in queue"
+        try:
+            response = make_response(send_from_directory(TEMP_DIR, track, as_attachment=True))
+            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = 0
+            return response
+        except:
+            return "Some error occured please try again..."
         
         
     if request.method == 'GET':
