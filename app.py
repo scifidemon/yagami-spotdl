@@ -22,19 +22,19 @@ def post_link():
             os.makedirs(TEMP_DIR)
         data = dict(request.form)
         url = data['url']
-        if is_link(url):
-            pass
-        else:
-            cmd = f'cd {TEMP_DIR} && spotdl "{url.strip()}"'
+        cmd = f'cd {TEMP_DIR} && spotdl "{url.strip()}"'
         if cmd:
             os.system(cmd)
             if not os.path.lexists(TEMP_DIR):
                 print("Download Failed")
             if os.path.lexists(TEMP_DIR):
                 for track in os.listdir(TEMP_DIR):
-                    track_loc = TEMP_DIR + track
+                    if not 'spotdl-cache' in track:
+                      track_loc = TEMP_DIR + track
+                      final_track = track
+                      print(track_loc)
         try:
-            response = make_response(send_from_directory(TEMP_DIR, track, as_attachment=True))
+            response = make_response(send_from_directory(TEMP_DIR, final_track, as_attachment=True))
             response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
             response.headers['Pragma'] = 'no-cache'
             response.headers['Expires'] = 0
@@ -48,4 +48,4 @@ def post_link():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
